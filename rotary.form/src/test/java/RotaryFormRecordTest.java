@@ -69,7 +69,7 @@ public class RotaryFormRecordTest extends CommonTest {
     public void pestLevelShouldHaveSetterAndGetter() {
         String expected = "okay";
         assertEquals(-1, record.setPestLevel(expected), "Input checker not working.");
-        expected = "high";
+        expected = "low";
         record.setPestLevel(expected);
         assertEquals(expected.toUpperCase(), record.getPestLevel());
     }
