@@ -8,6 +8,7 @@
    *************************************************************************************************
 */
 import java.lang.reflect.*;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class RotaryFormRecord extends PestProblem {
@@ -179,7 +180,7 @@ public class RotaryFormRecord extends PestProblem {
                     e.printStackTrace();
                 }
                 str.append(value);
-                str.append(",");
+                str.append(", ");
             }
             str.append(toString());
             return str.toString();

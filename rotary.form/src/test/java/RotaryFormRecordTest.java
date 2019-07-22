@@ -8,7 +8,6 @@
 */
 
 import org.junit.Test;
-
 import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,9 +75,8 @@ public class RotaryFormRecordTest extends CommonTest {
 
     @Test
     public void followUpShouldHaveSetterAndGetter() {
-        boolean expected = false;
-        record.setFollowup(expected);
-        assertEquals(expected, record.isFollowup());
+        record.setFollowup(false);
+        assertFalse(record.isFollowup());
     }
 
     @Test
@@ -89,5 +87,37 @@ public class RotaryFormRecordTest extends CommonTest {
         assertNotEquals(record, other);
         other.setUnitAddress(this.unitAddress);
         assertEquals(record, record);
+    }
+
+    @Test
+    public void toStringDelimitedTokens() throws Exception {
+        int numTokens = record.toString(record).split(", ").length;
+        assertEquals((record.getClass().getDeclaredFields().length + 1), numTokens);
+    }
+
+    @Test
+    public void toStringForNewRecord() {
+        RotaryFormRecord test = new RotaryFormRecord();
+        assertAll(
+            () -> assertAll("check for empty string",
+            () -> assertFalse(test.toString().isEmpty()),
+            () -> assertFalse(test.toString(test).isEmpty())
+            ),
+            () -> {
+                String expected = "\"none\"";
+                assertEquals(expected, test.toString());
+                expected = "null, null, false, null, null, none, \"none\"";
+                assertEquals(expected, test.toString(test));
+            }
+        );
+    }
+
+    @Test
+    public void toStringPestProblemChecker() {
+        boolean[] booleans = {false, true, false};
+        IntStream.range(0, booleans.length).forEach(i -> pestProblem.setPestInfo(i, booleans[i]));
+        pestProblem.setOthers("beetles");
+        String expected = "\"Mice,beetles\"";
+        assertEquals(expected, pestProblem.toString());
     }
 }

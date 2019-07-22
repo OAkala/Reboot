@@ -48,7 +48,6 @@ public class PestProblem {
             this.others = others;
             return 1;
         }
-        System.out.println("Please enter valid response.");
         return -1;
 
     }
