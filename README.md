@@ -25,4 +25,4 @@ This is a platform meant to mimic the functions of a service-based organization.
  Please Look at wiki for more information and refer to <a href = "https://github.com/OAkala/Reboot/blob/patches/CONTRIBUTING.md"> CONTRIBUTING </a> and <a href = "https://github.com/OAkala/Reboot/blob/patches/STYLE%20GUIDE.md"> STYLE GUIDE </a> when making pull requests
  </p>
  
- You can find quick ways to contribute by looking up current [issues](hhttps://github.com/OAkala/Reboot/issues)
+ You can find quick ways to contribute by looking up current [issues](https://github.com/OAkala/Reboot/issues)
