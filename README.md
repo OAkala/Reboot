@@ -1,6 +1,6 @@
 # Reboot
 ***
-This is a platform meant to mimic the functions of a service-based organization.
+This is a platform built to mimic the functions of a service-based organization.
 
 ##  Project Modules:
 
