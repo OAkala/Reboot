@@ -53,7 +53,7 @@ public class RotaryFormTable {
         StringBuilder str = new StringBuilder();
         for (RotaryFormRecord record : table) {
             try {
-                str.append(record.toString(record));
+                str.append(record.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }

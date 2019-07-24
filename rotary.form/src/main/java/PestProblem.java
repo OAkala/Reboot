@@ -48,7 +48,6 @@ public class PestProblem {
             this.others = others;
             return 1;
         }
-        System.out.println("Please enter valid response.");
         return -1;
 
     }
@@ -90,7 +89,7 @@ public class PestProblem {
         StringBuilder str = new StringBuilder();
         str.append("\"");
         for (int i = 0; i < PESTS.length; ++i) {
-            if(pestInfo[i]) {
+            if (pestInfo[i]) {
                 str.append(PESTS[i]).append(",");
             }
         }
