@@ -8,7 +8,6 @@
    *************************************************************************************************
 */
 import java.lang.reflect.*;
-import java.util.Map;
 import java.util.stream.Stream;
 
 public class RotaryFormRecord extends PestProblem {
@@ -51,11 +50,15 @@ public class RotaryFormRecord extends PestProblem {
      * @return
      */
     public int setUnitAddress(String unitAddress) {
-        if (!unitAddress.isEmpty()) {
-            this.unitAddress = unitAddress;
-            return 1;
+        if (unitAddress != null) {
+            if (!unitAddress.isEmpty()) {
+                this.unitAddress = unitAddress;
+                return 1;
+            }
+            return -1;
         }
-        return -1;
+        this.unitAddress = null;
+        return 1;
     }
 
     public String getKeyHome() {
@@ -63,11 +66,15 @@ public class RotaryFormRecord extends PestProblem {
     }
 
     public int setKeyHome(String keyHome) {
-        if (keyHome.equalsIgnoreCase("key") || keyHome.equalsIgnoreCase("home")) {
-            this.keyHome = keyHome.toUpperCase();
-            return 1;
+        if (keyHome != null) {
+            if (keyHome.equalsIgnoreCase("key") || keyHome.equalsIgnoreCase("home")) {
+                this.keyHome = keyHome.toUpperCase();
+                return 1;
+            }
+            return -1;
         }
-        return -1;
+        this.keyHome = null;
+        return 1;
     }
 
     public boolean isFollowup() {
@@ -87,11 +94,15 @@ public class RotaryFormRecord extends PestProblem {
      * @return
      */
     public int setPestLevel(String pestLevel) {
-        if (Stream.of("low", "medium", "high").anyMatch(pestLevel::equalsIgnoreCase)) {
-            this.pestLevel = pestLevel.toUpperCase();
-            return 1;
+        if (pestLevel != null) {
+            if (Stream.of("low", "medium", "high").anyMatch(pestLevel::equalsIgnoreCase)) {
+                this.pestLevel = pestLevel.toUpperCase();
+                return 1;
+            }
+            return -1;
         }
-        return -1;
+        this.pestLevel = null;
+        return 1;
     }
 
     public String getHouseKeeping() {
@@ -102,14 +113,16 @@ public class RotaryFormRecord extends PestProblem {
      * @param houseKeeping
      * @return
      */
-    private int setHouseKeeping(String houseKeeping) {
-        if (!houseKeeping.isEmpty()) {
-            this.houseKeeping = houseKeeping;
-            return 1;
+    public int setHouseKeeping(String houseKeeping) {
+        if (houseKeeping != null) {
+            if (!houseKeeping.isEmpty()) {
+                this.houseKeeping = houseKeeping;
+                return 1;
+            }
+            return -1;
         }
-        System.out.println("Please enter valid response.");
-        return -1;
-
+        this.houseKeeping = null;
+        return 1;
     }
 
     /**
@@ -155,12 +168,10 @@ public class RotaryFormRecord extends PestProblem {
     }
 
     /**
-     * @param o
+     *
      * @return
-     * @throws Exception
      */
-    String toString(Object o) throws Exception {
-        if (o instanceof RotaryFormRecord) {
+    public String toString() {
             StringBuilder str = new StringBuilder();
 
             for (Field field : getClass().getDeclaredFields()) {
@@ -175,17 +186,15 @@ public class RotaryFormRecord extends PestProblem {
                 getter.append(field.getName().substring(1));
                 try {
                     Method method = getClass().getDeclaredMethod(getter.toString());
-                    value = String.valueOf(method.invoke(o));
+                    value = String.valueOf(method.invoke(this));
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
                 str.append(value);
                 str.append(", ");
             }
-            str.append(toString());
+            str.append(super.toString());
             return str.toString();
-        }
-        throw new Exception("Invalid object type as input parameter");
     }
 
     public boolean equals(Object o) {
@@ -194,6 +203,10 @@ public class RotaryFormRecord extends PestProblem {
             return getUnitAddress().equals((other.getUnitAddress()));
         }
         return false;
+    }
+
+    public String superToString() {
+        return super.toString();
     }
 }
 
