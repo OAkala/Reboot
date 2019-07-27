@@ -24,6 +24,7 @@ public class CommonTest {
     protected final String houseKeeping = "decent";
     protected final String comments = "The unit had live activity. Intensive treatment required.";
     protected final boolean followUp = true;
+    protected final int count = 4;
 
     @Before
     public void beforeCommonTestFormRecord() {
@@ -38,7 +39,7 @@ public class CommonTest {
     }
 
     @Before
-    public void beforeCommonTestFormTable(int count) {
+    public void beforeCommonTestFormTable() {
         table = new RotaryFormTable();
         for (int index = 0; index < count; ++index) {
             table.setRecord((index), record);
