@@ -7,7 +7,8 @@
    *************************************************************************************************
 */
 
-import org.junit.Before;
+//import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.stream.IntStream;
 
@@ -16,15 +17,17 @@ public class CommonTest {
     protected final String others = "wasps";
     protected final boolean[] pestInfo = {true, false, true};
     protected PestProblem pestProblem;
-    protected RotaryFormRecord record;
+    RotaryFormRecord record;
+    protected RotaryFormTable table;
     protected final String unitAddress = "VU-205";
     protected final String keyHome = "KEY";
     protected final String pestLevel = "medium";
     protected final String houseKeeping = "decent";
     protected final String comments = "The unit had live activity. Intensive treatment required.";
     protected final boolean followUp = true;
+    protected final int count = 4;
 
-    @Before
+    @BeforeEach
     public void beforeCommonTest() {
         pestProblem = new PestProblem(pestInfo);
         pestProblem.setOthers(others);

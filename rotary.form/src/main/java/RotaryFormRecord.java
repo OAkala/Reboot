@@ -7,10 +7,12 @@
    necessary data required in a record on the form.
    *************************************************************************************************
 */
+
 import java.lang.reflect.*;
+import java.util.Objects;
 import java.util.stream.Stream;
 
-public class RotaryFormRecord extends PestProblem {
+public class RotaryFormRecord extends PestProblem implements Cloneable {
     private String unitAddress;
     private String keyHome;
     private boolean followup;
@@ -19,7 +21,7 @@ public class RotaryFormRecord extends PestProblem {
     private String comments;
 
     public RotaryFormRecord() {
-        comments = "none";
+        comments = "NONE";
     }
 
     /**
@@ -35,7 +37,7 @@ public class RotaryFormRecord extends PestProblem {
         setKeyHome(keyHome);
         setPestLevel(pestLevel);
         setHouseKeeping(houseKeeping);
-        comments = "none";
+        comments = "NONE";
     }
 
     /**
@@ -52,7 +54,7 @@ public class RotaryFormRecord extends PestProblem {
     public int setUnitAddress(String unitAddress) {
         if (unitAddress != null) {
             if (!unitAddress.isEmpty()) {
-                this.unitAddress = unitAddress;
+                this.unitAddress = unitAddress.toUpperCase();
                 return 1;
             }
             return -1;
@@ -116,7 +118,7 @@ public class RotaryFormRecord extends PestProblem {
     public int setHouseKeeping(String houseKeeping) {
         if (houseKeeping != null) {
             if (!houseKeeping.isEmpty()) {
-                this.houseKeeping = houseKeeping;
+                this.houseKeeping = houseKeeping.toUpperCase();
                 return 1;
             }
             return -1;
@@ -197,16 +199,35 @@ public class RotaryFormRecord extends PestProblem {
             return str.toString();
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof RotaryFormRecord) {
-            RotaryFormRecord other = (RotaryFormRecord) o;
-            return getUnitAddress().equals((other.getUnitAddress()));
-        }
-        return false;
-    }
-
     public String superToString() {
         return super.toString();
+    }
+
+    public boolean hasNullField() {
+        return (unitAddress == null) || (pestLevel == null) || (keyHome == null) || (houseKeeping == null);
+    }
+
+    public RotaryFormRecord clone() throws CloneNotSupportedException {
+        return (RotaryFormRecord) super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RotaryFormRecord)) return false;
+        if (!super.equals(o)) return false;
+        RotaryFormRecord that = (RotaryFormRecord) o;
+        return isFollowup() == that.isFollowup() &&
+                Objects.equals(getUnitAddress(), that.getUnitAddress()) &&
+                Objects.equals(getKeyHome(), that.getKeyHome()) &&
+                Objects.equals(getPestLevel(), that.getPestLevel()) &&
+                Objects.equals(getHouseKeeping(), that.getHouseKeeping()) &&
+                getComments().equals(that.getComments());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(unitAddress, keyHome, followup, pestLevel, houseKeeping, comments);
     }
 }
 

@@ -8,7 +8,8 @@
    *************************************************************************************************
 */
 
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
@@ -22,7 +23,7 @@ public class RotaryFormRecordTest extends CommonTest {
         pestProblem.setOthers(expected);
         record.setOthers(expected);
 
-        String finalExpected = expected;
+        String finalExpected = expected.toUpperCase();
         assertAll("othersSetterAndGetter",
                 () -> assertEquals(finalExpected, pestProblem.getOthers()),
                 () -> assertEquals(finalExpected, record.getOthers())
@@ -86,7 +87,7 @@ public class RotaryFormRecordTest extends CommonTest {
         assertEquals(-1, record.setHouseKeeping(expected), "Input checker not working.");
         expected = "terrible";
         record.setHouseKeeping(expected);
-        assertEquals(expected, record.getHouseKeeping());
+        assertEquals(expected.toUpperCase(), record.getHouseKeeping());
     }
 
     @Test
@@ -96,14 +97,21 @@ public class RotaryFormRecordTest extends CommonTest {
     }
 
     @Test
-    public void equalsMethod() {
-        RotaryFormRecord other = new RotaryFormRecord();
+    @DisplayName("equals")
+    public void equalsMethodTest() throws CloneNotSupportedException {
+        RotaryFormRecord expected = new RotaryFormRecord();
         String unitAddress = "1400-101";
-        other.setUnitAddress(unitAddress);
-        assertNotEquals(record, other);
+        assertEquals(expected, expected);
 
-        other.setUnitAddress(this.unitAddress);
-        assertEquals(record, record);
+        expected.setUnitAddress(unitAddress);
+        assertEquals(expected, expected);
+        assertNotEquals(expected, record);
+
+        expected = record.clone();
+        assertEquals(record, expected);
+
+        expected.setOthers("bees");
+        assertNotEquals(record, expected);
     }
 
     private void toStringDelimitedTokens() {
@@ -119,9 +127,9 @@ public class RotaryFormRecordTest extends CommonTest {
                         () -> assertFalse(test.toString().isEmpty())
                 ),
                 () -> {
-                    String expected = "\"none\"";
+                    String expected = "\"NONE\"";
                     assertEquals(expected, test.superToString());
-                    expected = "null, null, false, null, null, none, \"none\"";
+                    expected = "null, null, false, null, null, NONE, \"NONE\"";
                     assertEquals(expected, test.toString());
                 }
         );
@@ -131,7 +139,7 @@ public class RotaryFormRecordTest extends CommonTest {
         boolean[] booleans = {false, true, false};
         IntStream.range(0, booleans.length).forEach(i -> pestProblem.setPestInfo(i, booleans[i]));
         pestProblem.setOthers("beetles");
-        String expected = "\"Mice,beetles\"";
+        String expected = "\"MICE,BEETLES\"";
         assertEquals(expected, pestProblem.toString());
     }
 
@@ -139,11 +147,12 @@ public class RotaryFormRecordTest extends CommonTest {
         record.setPestLevel("high");
         record.setComments("none");
         record.setHouseKeeping("terrible");
-        String expected = "VU-205, KEY, true, HIGH, terrible, none, " + pestProblem.toString();
+        String expected = "VU-205, KEY, true, HIGH, TERRIBLE, none, " + pestProblem.toString();
         assertEquals(expected, record.toString());
     }
 
     @Test
+    @DisplayName("toString")
     public void toStringMethodTests() {
         toStringDelimitedTokens();
         toStringRotaryFormChecker();
@@ -152,9 +161,41 @@ public class RotaryFormRecordTest extends CommonTest {
     }
 
     @Test
+    @DisplayName("superToString")
     public void superToStringMethodTest() {
         PestProblem pestProblem1 = new PestProblem(record.getPestInfo());
         pestProblem1.setOthers(record.getOthers());
         assertEquals(pestProblem1.toString(), record.superToString());
+    }
+
+    @Test
+    @DisplayName("clone")
+    public void cloneMethodTest() throws CloneNotSupportedException {
+        RotaryFormRecord expected = record.clone();
+        assertEquals(expected, record);
+        assertNotSame(expected, record);
+    }
+
+    @Test
+    @DisplayName("hashcode")
+    public void hashCodeMethodTest() throws CloneNotSupportedException {
+        int expected = record.hashCode();
+        for (int i = 0; i < 10; i++) {
+            assertEquals(expected, record.hashCode());
+        }
+
+        RotaryFormRecord other = record.clone();
+        assertEquals(record.hashCode(), other.hashCode());
+
+        other.setUnitAddress("144-FS5");
+        assertNotEquals(record.hashCode(), other.hashCode());
+    }
+
+    @Test
+    @DisplayName("hasNullField")
+    public void hasNullFieldMethodTest() {
+        RotaryFormRecord expected = new RotaryFormRecord();
+        assertTrue(expected.hasNullField());
+        assertFalse(record.hasNullField());
     }
 }

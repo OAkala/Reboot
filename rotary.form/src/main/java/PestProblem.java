@@ -7,8 +7,13 @@
    of concern in that unit.
    *************************************************************************************************
 */
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Objects;
+
 public class PestProblem {
-    private static final String[] PESTS = {"Rodents", "Mice", "Ants"};
+    private static final String[] PESTS = {"RODENTS", "MICE", "ANTS"};
     private boolean[] pestInfo = new boolean[PESTS.length];
     private String others;
 
@@ -17,12 +22,12 @@ public class PestProblem {
      * Default constructor. Initializes instance variables with default values
      */
     PestProblem() {
-        others = "none";
+        others = "NONE";
     }
 
     public PestProblem(boolean[] booleans) {
         pestInfo = booleans;
-        others = "none";
+        others = "NONE";
     }
 
     /**
@@ -43,9 +48,9 @@ public class PestProblem {
      * @param others -- String object
      * @return -- int value
      */
-    public int setOthers(String others) {
+    public int setOthers(@NotNull String others) {
         if (!others.isEmpty()) {
-            this.others = others;
+            this.others = others.toUpperCase();
             return 1;
         }
         return -1;
@@ -81,9 +86,12 @@ public class PestProblem {
 
     /**
      * toString -
-     * This method returns a delimited string with all the data from the object
+     * Returns a string representation of the contents of the PestProblem object.
+     * The string representation consists of a list of the array's elements and the value of the
+     * others field, enclosed in double quotes (<tt>"\"\""</tt>).  Adjacent elements are
+     * separated by the characters <tt>","</tt> (a comma, no space).
      *
-     * @return -- String object
+     * @return -- a string representation of the object
      */
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -95,5 +103,41 @@ public class PestProblem {
         }
         str.append(getOthers()).append("\"");
         return str.toString();
+    }
+
+    /**
+     * equals -
+     * Compares this string to the specified object.  The result is {@code
+     * true} if and only if the argument is not {@code null} and is a {@code
+     * PestProblem} object that represents the same field values as this object.
+     *
+     * @param obj -- The object to compare this (@code PestProblem) against.
+     *
+     * @return -- {@code true} if the given object represents a {@code String equivalent to this
+     * string, {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof PestProblem)) return false;
+        PestProblem that = (PestProblem) obj;
+        return Arrays.equals(pestInfo, that.pestInfo) && others.equals(that.others);
+    }
+
+    /**
+     * hashcode -
+     * Returns a hash code for this pest problem.
+     * (The hash value of a new or default PestProblem object is 75724317)
+     *
+     * @return -- a hash code for this object
+     *
+     * @see Arrays#hashCode(boolean[])
+     * @see String#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getOthers());
+        result = 31 * result + Arrays.hashCode(getPestInfo());
+        return result;
     }
 }
