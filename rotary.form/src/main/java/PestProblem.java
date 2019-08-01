@@ -49,12 +49,13 @@ public class PestProblem {
      * @return -- int value
      */
     public int setOthers(@NotNull String others) {
+        int result = 1;
         if (!others.isEmpty()) {
             this.others = others.toUpperCase();
-            return 1;
+        } else {
+            result = -1;
         }
-        return -1;
-
+        return result;
     }
 
     /**
@@ -77,11 +78,13 @@ public class PestProblem {
      * @return -- int value
      */
     public int setPestInfo(int pestIndex, boolean bool) {
+        int result = 1;
         if (pestIndex < PESTS.length) {
             pestInfo[pestIndex] = bool;
-            return 1;
+        } else {
+            result = -1;
         }
-        return -1;
+        return result;
     }
 
     /**
@@ -111,16 +114,15 @@ public class PestProblem {
      * true} if and only if the argument is not {@code null} and is a {@code
      * PestProblem} object that represents the same field values as this object.
      *
-     * @param obj -- The object to compare this (@code PestProblem) against.
-     *
+     * @param o -- The object to compare this (@code PestProblem) against.
      * @return -- {@code true} if the given object represents a {@code String equivalent to this
      * string, {@code false} otherwise.
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof PestProblem)) return false;
-        PestProblem that = (PestProblem) obj;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PestProblem)) return false;
+        PestProblem that = (PestProblem) o;
         return Arrays.equals(pestInfo, that.pestInfo) && others.equals(that.others);
     }
 

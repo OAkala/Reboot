@@ -7,18 +7,34 @@
    necessary data required in a record on the form.
    *************************************************************************************************
 */
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.*;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class RotaryFormRecord extends PestProblem implements Cloneable {
+public class RotaryFormRecord extends PestProblem implements Cloneable, Comparable {
     private String unitAddress;
     private String keyHome;
     private boolean followup;
     private String pestLevel;
     private String houseKeeping;
     private String comments;
+    private enum Level {
+        LOW(1),
+        MEDIUM(2),
+        HIGH(3);
+
+        private final int levelCode;
+
+        Level(int levelCode) {
+            this.levelCode = levelCode;
+        }
+
+        public int getLevelCode() {
+            return this.levelCode;
+        }
+    }
 
     public RotaryFormRecord() {
         comments = "NONE";
@@ -68,15 +84,17 @@ public class RotaryFormRecord extends PestProblem implements Cloneable {
     }
 
     public int setKeyHome(String keyHome) {
+        int result = 1;
         if (keyHome != null) {
             if (keyHome.equalsIgnoreCase("key") || keyHome.equalsIgnoreCase("home")) {
                 this.keyHome = keyHome.toUpperCase();
-                return 1;
+            } else {
+                result = -1;
             }
-            return -1;
+        } else {
+            this.keyHome = null;
         }
-        this.keyHome = null;
-        return 1;
+        return result;
     }
 
     public boolean isFollowup() {
@@ -96,15 +114,17 @@ public class RotaryFormRecord extends PestProblem implements Cloneable {
      * @return
      */
     public int setPestLevel(String pestLevel) {
+        int result = 1;
         if (pestLevel != null) {
             if (Stream.of("low", "medium", "high").anyMatch(pestLevel::equalsIgnoreCase)) {
                 this.pestLevel = pestLevel.toUpperCase();
-                return 1;
+            } else {
+                result = -1;
             }
-            return -1;
+        } else {
+            this.pestLevel = null;
         }
-        this.pestLevel = null;
-        return 1;
+        return result;
     }
 
     public String getHouseKeeping() {
@@ -116,15 +136,17 @@ public class RotaryFormRecord extends PestProblem implements Cloneable {
      * @return
      */
     public int setHouseKeeping(String houseKeeping) {
+        int result = 1;
         if (houseKeeping != null) {
             if (!houseKeeping.isEmpty()) {
                 this.houseKeeping = houseKeeping.toUpperCase();
-                return 1;
+            } else {
+                result = -1;
             }
-            return -1;
+        } else {
+            this.houseKeeping = null;
         }
-        this.houseKeeping = null;
-        return 1;
+        return result;
     }
 
     /**
@@ -135,38 +157,13 @@ public class RotaryFormRecord extends PestProblem implements Cloneable {
     }
 
     public int setComments(String comments) {
+        int result = 1;
         if (!comments.isEmpty()) {
             this.comments = comments;
-            return 1;
+        } else {
+            result = -1;
         }
-        return -1;
-    }
-
-    /**
-     * @param field
-     * @param data
-     */
-    public void fill(int field, String data) {
-        switch (field) {
-            case 1:
-                setUnitAddress(data);
-            case 2:
-                setOthers(data);
-            case 3:
-                setKeyHome(data);
-            case 5:
-                setPestLevel(data);
-            case 6:
-                setHouseKeeping(data);
-            case 7:
-                setComments(data);
-        }
-    }
-
-    public void fill(int field, boolean bool) {
-        if (field == 4) {
-            setFollowup(bool);
-        }
+        return result;
     }
 
     /**
@@ -213,21 +210,77 @@ public class RotaryFormRecord extends PestProblem implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RotaryFormRecord)) return false;
-        if (!super.equals(o)) return false;
-        RotaryFormRecord that = (RotaryFormRecord) o;
-        return isFollowup() == that.isFollowup() &&
-                Objects.equals(getUnitAddress(), that.getUnitAddress()) &&
-                Objects.equals(getKeyHome(), that.getKeyHome()) &&
-                Objects.equals(getPestLevel(), that.getPestLevel()) &&
-                Objects.equals(getHouseKeeping(), that.getHouseKeeping()) &&
-                getComments().equals(that.getComments());
+        boolean result = false;
+        if (this == o) {
+            result = true;
+        } else {
+            if (o instanceof RotaryFormRecord) {
+                if (super.equals(o)) {
+                    RotaryFormRecord that = (RotaryFormRecord) o;
+                    result = isFollowup() == that.isFollowup() &&
+                            Objects.equals(getUnitAddress(), that.getUnitAddress()) &&
+                            Objects.equals(getKeyHome(), that.getKeyHome()) &&
+                            Objects.equals(getPestLevel(), that.getPestLevel()) &&
+                            Objects.equals(getHouseKeeping(), that.getHouseKeeping()) &&
+                            getComments().equals(that.getComments());
+                }
+            }
+        }
+        return result;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(unitAddress, keyHome, followup, pestLevel, houseKeeping, comments);
+    }
+
+    /**
+     * Compares this object with the specified object for order.  Returns a
+     * negative integer, zero, or a positive integer as this object is less
+     * than, equal to, or greater than the specified object.
+     *
+     * <p>The implementor must ensure <tt>sgn(x.compareTo(y)) ==
+     * -sgn(y.compareTo(x))</tt> for all <tt>x</tt> and <tt>y</tt>.  (This
+     * implies that <tt>x.compareTo(y)</tt> must throw an exception iff
+     * <tt>y.compareTo(x)</tt> throws an exception.)
+     *
+     * <p>The implementor must also ensure that the relation is transitive:
+     * <tt>(x.compareTo(y)&gt;0 &amp;&amp; y.compareTo(z)&gt;0)</tt> implies
+     * <tt>x.compareTo(z)&gt;0</tt>.
+     *
+     * <p>Finally, the implementor must ensure that <tt>x.compareTo(y)==0</tt>
+     * implies that <tt>sgn(x.compareTo(z)) == sgn(y.compareTo(z))</tt>, for
+     * all <tt>z</tt>.
+     *
+     * <p>Note: this class has a natural ordering that is
+     * inconsistent with equals."
+     *
+     * <p>In the foregoing description, the notation
+     * <tt>sgn(</tt><i>expression</i><tt>)</tt> designates the mathematical
+     * <i>signum</i> function, which is defined to return one of <tt>-1</tt>,
+     * <tt>0</tt>, or <tt>1</tt> according to whether the value of
+     * <i>expression</i> is negative, zero or positive.
+     *
+     * @param o the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws ClassCastException   if the specified object's type prevents it
+     *                              from being compared to this object.
+     */
+    @Override
+    public int compareTo(@NotNull Object o) {
+        int result;
+        if (o instanceof RotaryFormRecord) {
+            RotaryFormRecord that = (RotaryFormRecord) o;
+            if (this.unitAddress.compareTo(that.unitAddress) != 0) {
+                result = this.unitAddress.compareTo(that.unitAddress);
+            } else {
+                result = Integer.compare(Level.valueOf(this.getPestLevel()).levelCode, Level.valueOf(that.getPestLevel()).levelCode);
+            }
+        } else {
+            throw new ClassCastException();
+        }
+        return result;
     }
 }
 
