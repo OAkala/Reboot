@@ -17,15 +17,17 @@ public class CommonTest {
     protected final boolean[] pestInfo = {true, false, true};
     protected PestProblem pestProblem;
     protected RotaryFormRecord record;
+    protected RotaryFormTable table;
     protected final String unitAddress = "VU-205";
     protected final String keyHome = "KEY";
     protected final String pestLevel = "medium";
     protected final String houseKeeping = "decent";
     protected final String comments = "The unit had live activity. Intensive treatment required.";
     protected final boolean followUp = true;
+    protected final int count = 4;
 
     @Before
-    public void beforeCommonTest() {
+    public void beforeCommonTestFormRecord() {
         pestProblem = new PestProblem(pestInfo);
         pestProblem.setOthers(others);
 
@@ -34,5 +36,14 @@ public class CommonTest {
         record.setOthers(others);
         record.setFollowup(followUp);
         IntStream.range(0, pestInfo.length).forEach(i -> record.setPestInfo(i, pestInfo[i]));
+    }
+
+    @Before
+    public void beforeCommonTestFormTable() {
+        table = new RotaryFormTable();
+        for (int index = 0; index < count; ++index) {
+            table.setRecord((index), record);
+            table.addRecord();
+        }
     }
 }

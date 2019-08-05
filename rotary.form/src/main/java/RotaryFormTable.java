@@ -85,4 +85,8 @@ public class RotaryFormTable {
         }
         throw new Exception("There are no records in current table");
     }
+
+    public void setRecord(int index, RotaryFormRecord record) {
+        table.add(index, record);
+    }
 }
