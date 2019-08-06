@@ -22,12 +22,12 @@ public class RotaryForm extends RotaryFormTable {
         dateCreated = new Date();
     }
 
-    public RotaryForm(String propertyName, String unit, String keyHome, String pestLevel,
-                      String houseKeeping) {
-        this.propertyName = propertyName;
-        dateCreated = new Date();
-        table.add(new RotaryFormRecord(unit, keyHome, pestLevel, houseKeeping));
-    }
+//    public RotaryForm(String propertyName, String unit, String keyHome, String pestLevel,
+//                      String houseKeeping) {
+//        this.propertyName = propertyName;
+//        dateCreated = new Date();
+//        table.add(new RotaryFormRecord(unit, keyHome, pestLevel, houseKeeping));
+//    }
 
     public String getFormName() {
         return getProperty_Name() + "-" + DateToString();
@@ -51,10 +51,8 @@ public class RotaryForm extends RotaryFormTable {
     }
 
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(getProperty_Name()).append(System.lineSeparator());
-        str.append(getDateCreated()).append(System.lineSeparator()).append(System.lineSeparator());
-        str.append(super.toString());
-        return str.toString();
+        return getProperty_Name() + System.lineSeparator() +
+                getDateCreated() + System.lineSeparator() + System.lineSeparator() +
+                super.toString();
     }
 }

@@ -10,6 +10,7 @@
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -156,5 +157,11 @@ public class RotaryFormRecordTest extends CommonTest {
         PestProblem pestProblem1 = new PestProblem(record.getPestInfo());
         pestProblem1.setOthers(record.getOthers());
         assertEquals(pestProblem1.toString(), record.superToString());
+    }
+
+    @Test
+    public void test() {
+        Object[] arr = {};
+        System.out.println(arr.length);
     }
 }

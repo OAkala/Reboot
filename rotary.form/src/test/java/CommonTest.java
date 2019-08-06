@@ -40,10 +40,6 @@ public class CommonTest {
 
     @Before
     public void beforeCommonTestFormTable() {
-        table = new RotaryFormTable();
-        for (int index = 0; index < count; ++index) {
-            table.setRecord((index), record);
-            table.addRecord();
-        }
+        table = new RotaryFormTable(record);
     }
 }
