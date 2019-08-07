@@ -44,7 +44,7 @@ public class RotaryFormTable extends ArrayList<RotaryFormRecord> {
     }
 
     public RotaryFormTable(RotaryFormRecord... records) {
-        this.addAll(Arrays.asList(records));
+        //this.addAll(Arrays.asList(records));
     }
 
     public void trimToSize() {
@@ -56,7 +56,8 @@ public class RotaryFormTable extends ArrayList<RotaryFormRecord> {
 
     @Override
     public RotaryFormRecord get(int i) {
-        return null;
+        Objects.checkIndex(i, this.size);
+        return (RotaryFormRecord) this.listData[i];
     }
 
     @Override
@@ -76,24 +77,24 @@ public class RotaryFormTable extends ArrayList<RotaryFormRecord> {
         return v;
     }
 
-    public boolean addAll(Collection<? extends RotaryFormRecord> c) {
-        Object[] a = c.toArray();
-        ++this.modCount;
-        int numNew = a.length;
-        if (numNew == 0) {
-            return false;
-        } else {
-            Object[] elementData;
-            int s;
-            if (numNew > (elementData = this.listData).length - (s = this.size)) {
-                elementData = this.grow(s + numNew);
-            }
-
-            System.arraycopy(a, 0, elementData, s, numNew);
-            this.size = s + numNew;
-            return true;
-        }
-    }
+//    public boolean addAll(Collection<? extends RotaryFormRecord> c) {
+//        Object[] a = c.toArray();
+//        ++this.modCount;
+//        int numNew = a.length;
+//        if (numNew == 0) {
+//            return false;
+//        } else {
+//            Object[] elementData;
+//            int s;
+//            if (numNew > (elementData = this.listData).length - (s = this.size)) {
+//                elementData = this.grow(s + numNew);
+//            }
+//
+//            System.arraycopy(a, 0, elementData, s, numNew);
+//            this.size = s + numNew;
+//            return true;
+//        }
+//    }
 
     private Object[] grow(int minCapacity) {
         return this.listData = Arrays.copyOf(this.listData, minCapacity);
